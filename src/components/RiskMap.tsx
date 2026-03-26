@@ -150,13 +150,10 @@ export default function RiskMap() {
             <MapPin size={16} className="text-primary" /> Estación hidrológica
           </span>
           <span className="flex items-center gap-1">
-            <span className="w-4 h-4 rounded-full inline-block" style={{ background: "#22c55e" }} /> Albergue
+            <span className="w-4 h-4 rounded-full inline-block" style={{ background: "#22c55e" }} /> Zona segura
           </span>
           <span className="flex items-center gap-1">
-            <span className="w-4 h-4 rounded-full inline-block" style={{ background: "#3b82f6" }} /> Punto de encuentro
-          </span>
-          <span className="flex items-center gap-1">
-            <span className="w-4 h-4 rounded-full inline-block" style={{ background: "#f59e0b" }} /> Evacuación
+            <span className="w-4 h-4 rounded-full inline-block" style={{ background: "#ef4444" }} /> Zona de riesgo
           </span>
         </div>
       </div>
