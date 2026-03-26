@@ -6,25 +6,55 @@ const STATION_CENTER: [number, number] = [10.57, -75.02];
 
 const safeZones = [
   {
-    name: "I.E. Técnica de La Peña",
-    position: [10.5678, -75.0155] as [number, number],
-    type: "Albergue principal (Zona alta)",
-    emoji: "🏫",
-    color: "#22c55e",
+    name: "Cerro de La Peña",
+    position: [10.5879, -75.0226] as [number, number],
+    type: "Elevación natural más alta, refugio seguro ante inundaciones.",
+    emoji: "⛰️",
   },
   {
-    name: "Cancha de Béisbol",
-    position: [10.5655, -75.0165] as [number, number],
-    type: "Punto de encuentro amplio",
-    emoji: "⚾",
-    color: "#3b82f6",
+    name: "Parque Central de La Peña",
+    position: [10.5846, -75.0254] as [number, number],
+    type: "Área de coordinación comunitaria durante emergencias.",
+    emoji: "🏛️",
   },
   {
-    name: "Salida a Sabanalarga",
-    position: [10.5640, -75.0140] as [number, number],
-    type: "Punto de evacuación terrestre",
-    emoji: "🚗",
-    color: "#f59e0b",
+    name: "Cancha de Fútbol de La Peña",
+    position: [10.5852, -75.0268] as [number, number],
+    type: "Área abierta para evacuación masiva y logística.",
+    emoji: "⚽",
+  },
+  {
+    name: "Iglesia Principal de La Peña",
+    position: [10.5841, -75.0249] as [number, number],
+    type: "Punto de referencia comunitario central.",
+    emoji: "⛪",
+  },
+  {
+    name: "Puesto de Salud de La Peña",
+    position: [10.5837, -75.0240] as [number, number],
+    type: "Centro de triaje y apoyo médico de emergencia.",
+    emoji: "🏥",
+  },
+];
+
+const riskZones = [
+  {
+    name: "Calle 3 – Zona de Inundación",
+    position: [10.5832, -75.0261] as [number, number],
+    type: "Calle de baja elevación históricamente afectada por inundaciones.",
+    emoji: "⚠️",
+  },
+  {
+    name: "Calle 4 – Zona Crítica de Inundación",
+    position: [10.5827, -75.0264] as [number, number],
+    type: "Una de las áreas más vulnerables durante desbordamientos del embalse.",
+    emoji: "🚨",
+  },
+  {
+    name: "Malecón / Borde del Embalse",
+    position: [10.5848, -75.0286] as [number, number],
+    type: "Zona ribereña expuesta directamente al aumento del nivel del Embalse del Guájaro.",
+    emoji: "🌊",
   },
 ];
 
@@ -70,14 +100,25 @@ export default function RiskMap() {
           .addTo(map)
           .bindPopup("<strong>Estación PENA LA [29037050]</strong><br/>Lat: 10.57, Lon: -75.02");
 
-        // Zonas seguras como marcadores
+        // Zonas seguras (verde)
         safeZones.forEach((zone) => {
           const icon = L.divIcon({
-            html: `<div style="background:${zone.color};color:white;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:18px;border:2px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.3)">${zone.emoji}</div>`,
+            html: `<div style="background:#22c55e;color:white;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:18px;border:2px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.3)">${zone.emoji}</div>`,
             iconSize: [32, 32],
             className: "",
           });
+          L.marker(zone.position, { icon })
+            .addTo(map)
+            .bindPopup(`<strong>${zone.name}</strong><br/>${zone.type}`);
+        });
 
+        // Zonas de riesgo (rojo)
+        riskZones.forEach((zone) => {
+          const icon = L.divIcon({
+            html: `<div style="background:#ef4444;color:white;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:18px;border:2px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.3)">${zone.emoji}</div>`,
+            iconSize: [32, 32],
+            className: "",
+          });
           L.marker(zone.position, { icon })
             .addTo(map)
             .bindPopup(`<strong>${zone.name}</strong><br/>${zone.type}`);
@@ -109,13 +150,10 @@ export default function RiskMap() {
             <MapPin size={16} className="text-primary" /> Estación hidrológica
           </span>
           <span className="flex items-center gap-1">
-            <span className="w-4 h-4 rounded-full inline-block" style={{ background: "#22c55e" }} /> Albergue
+            <span className="w-4 h-4 rounded-full inline-block" style={{ background: "#22c55e" }} /> Zona segura
           </span>
           <span className="flex items-center gap-1">
-            <span className="w-4 h-4 rounded-full inline-block" style={{ background: "#3b82f6" }} /> Punto de encuentro
-          </span>
-          <span className="flex items-center gap-1">
-            <span className="w-4 h-4 rounded-full inline-block" style={{ background: "#f59e0b" }} /> Evacuación
+            <span className="w-4 h-4 rounded-full inline-block" style={{ background: "#ef4444" }} /> Zona de riesgo
           </span>
         </div>
       </div>
