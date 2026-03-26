@@ -1,16 +1,28 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from "react";
+import BottomNav, { type Tab } from "@/components/BottomNav";
+import WaterMonitor from "@/components/WaterMonitor";
+import RiskMap from "@/components/RiskMap";
+import EmergencyGuide from "@/components/EmergencyGuide";
+import AdminPanel from "@/components/AdminPanel";
 
-// IMPORTANT: Fully REPLACE this with your own code
-const PlaceholderIndex = () => {
-  // PLACEHOLDER: Replace this entire return statement with the user's app.
-  // The inline background color is intentionally not part of the design system.
+const Index = () => {
+  const [tab, setTab] = useState<Tab>("monitor");
+  const [key, setKey] = useState(0);
+
+  const handleTabChange = (t: Tab) => {
+    setTab(t);
+    if (t === "monitor") setKey((k) => k + 1);
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: '#fcfbf8' }}>
-      <img data-lovable-blank-page-placeholder="REMOVE_THIS" src="/placeholder.svg" alt="Your app will live here!" />
+    <div className="min-h-screen pb-20">
+      {tab === "monitor" && <WaterMonitor key={key} />}
+      {tab === "map" && <RiskMap />}
+      {tab === "emergency" && <EmergencyGuide />}
+      {tab === "admin" && <AdminPanel />}
+      <BottomNav active={tab} onChange={handleTabChange} />
     </div>
   );
 };
-
-const Index = PlaceholderIndex;
 
 export default Index;
