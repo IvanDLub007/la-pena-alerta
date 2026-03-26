@@ -100,14 +100,25 @@ export default function RiskMap() {
           .addTo(map)
           .bindPopup("<strong>Estación PENA LA [29037050]</strong><br/>Lat: 10.57, Lon: -75.02");
 
-        // Zonas seguras como marcadores
+        // Zonas seguras (verde)
         safeZones.forEach((zone) => {
           const icon = L.divIcon({
-            html: `<div style="background:${zone.color};color:white;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:18px;border:2px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.3)">${zone.emoji}</div>`,
+            html: `<div style="background:#22c55e;color:white;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:18px;border:2px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.3)">${zone.emoji}</div>`,
             iconSize: [32, 32],
             className: "",
           });
+          L.marker(zone.position, { icon })
+            .addTo(map)
+            .bindPopup(`<strong>${zone.name}</strong><br/>${zone.type}`);
+        });
 
+        // Zonas de riesgo (rojo)
+        riskZones.forEach((zone) => {
+          const icon = L.divIcon({
+            html: `<div style="background:#ef4444;color:white;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:18px;border:2px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.3)">${zone.emoji}</div>`,
+            iconSize: [32, 32],
+            className: "",
+          });
           L.marker(zone.position, { icon })
             .addTo(map)
             .bindPopup(`<strong>${zone.name}</strong><br/>${zone.type}`);
