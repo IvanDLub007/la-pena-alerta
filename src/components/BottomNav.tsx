@@ -1,6 +1,6 @@
-import { Droplets, Map, ShieldAlert, Settings } from "lucide-react";
+import { Droplets, Map, ShieldAlert, Settings, Heart, Hammer } from "lucide-react";
 
-export type Tab = "monitor" | "map" | "emergency" | "admin";
+export type Tab = "monitor" | "map" | "emergency" | "resilience" | "guides" | "admin";
 
 interface Props {
   active: Tab;
@@ -11,6 +11,8 @@ const tabs: { id: Tab; label: string; icon: React.ReactNode }[] = [
   { id: "monitor", label: "Nivel", icon: <Droplets size={22} /> },
   { id: "map", label: "Mapa", icon: <Map size={22} /> },
   { id: "emergency", label: "Emergencia", icon: <ShieldAlert size={22} /> },
+  { id: "resilience", label: "Comunidad", icon: <Heart size={22} /> },
+  { id: "guides", label: "Técnica", icon: <Hammer size={22} /> },
   { id: "admin", label: "Admin", icon: <Settings size={22} /> },
 ];
 
