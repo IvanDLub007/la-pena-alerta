@@ -24,14 +24,14 @@ export default function BottomNav({ active, onChange }: Props) {
         <button
           key={tab.id}
           onClick={() => onChange(tab.id)}
-          className={`flex flex-col items-center gap-1 py-2 px-4 rounded-lg transition-colors min-w-[60px] ${
+          className={`flex flex-col items-center gap-0.5 py-1 px-1 sm:px-4 rounded-lg transition-colors min-w-0 sm:min-w-[60px] ${
             active === tab.id
               ? "text-accent"
               : "text-muted-foreground"
           }`}
         >
           {tab.icon}
-          <span className="text-xs font-medium">{tab.label}</span>
+          <span className="text-xs sm:text-xs font-medium leading-tight line-clamp-1">{tab.label}</span>
         </button>
       ))}
     </nav>

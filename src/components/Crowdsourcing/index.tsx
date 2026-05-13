@@ -43,12 +43,12 @@ export const CrowdsourcingModule = () => {
       </div>
 
       {/* Tabs */}
-      <div className="flex-1 flex flex-col max-w-7xl mx-auto w-full">
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full flex flex-col h-full overflow-hidden">
+      <div className="flex-1 flex flex-col max-w-7xl mx-auto w-full overflow-hidden">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full flex flex-col h-full">
           <TabsList className="sticky top-0 z-[100] w-full rounded-none border-b border-gray-200 bg-gray-50 flex-shrink-0 shadow-md">
             <TabsTrigger
               value="map"
-              className="flex items-center gap-2 rounded-none border-b-2 border-transparent data-[state=active]:border-red-600"
+              className="flex items-center gap-1 sm:gap-2 rounded-none border-b-2 border-transparent data-[state=active]:border-red-600 text-xs sm:text-sm"
             >
               <Map className="w-4 h-4" />
               <span className="hidden sm:inline">Mapa de Reportes</span>
@@ -56,7 +56,7 @@ export const CrowdsourcingModule = () => {
             </TabsTrigger>
             <TabsTrigger
               value="form"
-              className="flex items-center gap-2 rounded-none border-b-2 border-transparent data-[state=active]:border-red-600"
+              className="flex items-center gap-1 sm:gap-2 rounded-none border-b-2 border-transparent data-[state=active]:border-red-600 text-xs sm:text-sm"
             >
               <FileText className="w-4 h-4" />
               <span className="hidden sm:inline">Nuevo Reporte</span>
@@ -70,8 +70,8 @@ export const CrowdsourcingModule = () => {
           </TabsContent>
 
           {/* Tab: Formulario */}
-          <TabsContent value="form" className="flex-1 p-4 sm:p-6 border-0 overflow-y-auto">
-            <div className="max-w-2xl mx-auto">
+          <TabsContent value="form" className="flex-1 border-0 overflow-y-auto">
+            <div className="p-4 sm:p-6 max-w-2xl mx-auto">
               <ReportForm onSuccess={handleReportSuccess} />
             </div>
           </TabsContent>
