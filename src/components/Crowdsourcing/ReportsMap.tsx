@@ -121,6 +121,7 @@ export const ReportsMap = () => {
 
       // ✅ MODIFICACIÓN 1: Detectar si es móvil
       const isMobile = window.innerWidth < 768;
+      const isSmallMobile = window.innerWidth < 600;
 
       // Popup con información del reporte
       const eventLabels: Record<string, string> = {
@@ -142,47 +143,48 @@ export const ReportsMap = () => {
       // ✅ MODIFICACIÓN 3: Reemplazar popupContent completo
       const popupContent = `
         <div style="
-          max-width: ${isMobile ? '180px' : '280px'};
+          max-width: ${isSmallMobile ? '140px' : isMobile ? '200px' : '280px'};
           font-family: system-ui;
-          padding: ${isMobile ? '6px' : '8px'};
+          padding: ${isSmallMobile ? '4px' : isMobile ? '5px' : '8px'};
         ">
           <h3 style="
-            margin: 0 0 ${isMobile ? '4px' : '8px'} 0;
+            margin: 0 0 ${isSmallMobile ? '3px' : isMobile ? '4px' : '8px'} 0;
             font-weight: bold;
             color: #333;
-            font-size: ${isMobile ? '12px' : '14px'};
+            font-size: ${isSmallMobile ? '11px' : isMobile ? '12px' : '14px'};
+            line-height: 1.2;
           ">
             ${eventLabels[report.event_type] || report.event_type}
           </h3>
           
           <div style="
-            font-size: ${isMobile ? '10px' : '12px'};
+            font-size: ${isSmallMobile ? '9px' : isMobile ? '10px' : '12px'};
             color: #666;
-            line-height: 1.4;
+            line-height: 1.3;
           ">
-            <p style="margin: 2px 0;"><strong>Afectados:</strong> ${report.affected_count}</p>
-            <p style="margin: 2px 0;"><strong>Vivienda:</strong> ${report.housing_type}</p>
-            <p style="margin: 2px 0;">
+            <p style="margin: 1px 0;"><strong>Afectados:</strong> ${report.affected_count}</p>
+            <p style="margin: 1px 0;"><strong>Vivienda:</strong> ${report.housing_type}</p>
+            <p style="margin: 1px 0;">
               <strong>Estado:</strong> 
               <span style="
-                padding: 2px 4px;
-                border-radius: 3px;
+                padding: 1px 3px;
+                border-radius: 2px;
                 background-color: ${statusColor.bg};
                 color: ${statusColor.text};
-                font-size: ${isMobile ? '9px' : '11px'};
+                font-size: ${isSmallMobile ? '8px' : isMobile ? '9px' : '11px'};
               ">
                 ${report.status}
               </span>
             </p>
             
             <p style="
-              margin: ${isMobile ? '4px 0 2px 0' : '6px 0 4px 0'};
-              font-size: ${isMobile ? '10px' : '12px'};
+              margin: ${isSmallMobile ? '2px 0 1px 0' : isMobile ? '3px 0 2px 0' : '6px 0 4px 0'};
+              font-size: ${isSmallMobile ? '9px' : isMobile ? '10px' : '12px'};
               word-wrap: break-word;
               overflow: hidden;
               text-overflow: ellipsis;
               display: -webkit-box;
-              -webkit-line-clamp: 2;
+              -webkit-line-clamp: ${isSmallMobile ? '1' : '2'};
               -webkit-box-orient: vertical;
             ">
               ${report.description}
@@ -194,10 +196,10 @@ export const ReportsMap = () => {
                     src="${report.image_url}" 
                     style="
                       width: 100%;
-                      border-radius: 4px;
-                      max-height: ${isMobile ? '80px' : '150px'};
+                      border-radius: 3px;
+                      max-height: ${isSmallMobile ? '50px' : isMobile ? '70px' : '150px'};
                       object-fit: cover;
-                      margin-top: 4px;
+                      margin-top: ${isSmallMobile ? '2px' : '3px'};
                     " 
                     alt="Evidencia" 
                   />`
@@ -205,8 +207,8 @@ export const ReportsMap = () => {
             }
             
             <p style="
-              margin: ${isMobile ? '4px 0 0 0' : '6px 0 0 0'};
-              font-size: ${isMobile ? '9px' : '11px'};
+              margin: ${isSmallMobile ? '2px 0 0 0' : isMobile ? '3px 0 0 0' : '6px 0 0 0'};
+              font-size: ${isSmallMobile ? '8px' : isMobile ? '9px' : '11px'};
               color: #999;
             ">
               ${new Date(report.created_at).toLocaleString('es-CO')}
@@ -215,7 +217,7 @@ export const ReportsMap = () => {
         </div>
       `;
 
-      marker.bindPopup(popupContent, { maxWidth: 300 }).addTo(map);
+      marker.bindPopup(popupContent, { maxWidth: isSmallMobile ? 160 : isMobile ? 220 : 300 }).addTo(map);
       markersRef.current.push(marker);
     });
 
