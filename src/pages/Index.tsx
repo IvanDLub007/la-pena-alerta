@@ -5,6 +5,7 @@ import RiskMap from "@/components/RiskMap";
 import EmergencyGuide from "@/components/EmergencyGuide";
 import ResilienceModule from "@/components/ResilienceModule";
 import TechnicalGuides from "@/components/TechnicalGuides";
+import CrowdsourcingModule from "@/components/Crowdsourcing";
 import AdminPanel from "@/components/AdminPanel";
 
 const Index = () => {
@@ -23,6 +24,7 @@ const Index = () => {
       {tab === "emergency" && <EmergencyGuide />}
       {tab === "resilience" && <ResilienceModule />}
       {tab === "guides" && <TechnicalGuides />}
+      {tab === "crowdsourcing" && <CrowdsourcingModule />}
       {tab === "admin" && <AdminPanel />}
       <BottomNav active={tab} onChange={handleTabChange} />
     </div>
