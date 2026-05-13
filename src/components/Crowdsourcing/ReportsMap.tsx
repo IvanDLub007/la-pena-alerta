@@ -108,7 +108,7 @@ export const ReportsMap = () => {
 
       // Crear icono custom
       const icon = L.divIcon({
-        html: `<div style="background:${EVENT_COLORS[report.event_type] || '#999'};color:white;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:16px;border:2px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.3);cursor:pointer;">📍</div>`,
+        html: `<div style="background:${EVENT_COLORS[report.event_type] || '#999'};color:white;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:16px;border:2px solid white;box-shadow:0 2px 4px rgba(0,0,0,0.2)">📍</div>`,
         iconSize: [32, 32],
         iconAnchor: [16, 32],
         popupAnchor: [0, -32],
@@ -119,6 +119,9 @@ export const ReportsMap = () => {
         icon,
       });
 
+      // ✅ MODIFICACIÓN 1: Detectar si es móvil
+      const isMobile = window.innerWidth < 768;
+
       // Popup con información del reporte
       const eventLabels: Record<string, string> = {
         inundacion: '🌊 Inundación',
@@ -128,33 +131,84 @@ export const ReportsMap = () => {
         otro: '⚠️ Otro',
       };
 
-      const statusColor = {
+      // ✅ MODIFICACIÓN 2: Reemplazar statusColor
+      const statusColors: Record<string, { bg: string; text: string }> = {
         resuelto: { bg: '#dcfce7', text: '#15803d' },
         en_progreso: { bg: '#fef3c7', text: '#92400e' },
         pendiente: { bg: '#fee2e2', text: '#991b1b' },
-      }[report.status] || { bg: '#fee2e2', text: '#991b1b' };
+      };
+      const statusColor = statusColors[report.status] || statusColors['pendiente'];
 
+      // ✅ MODIFICACIÓN 3: Reemplazar popupContent completo
       const popupContent = `
-        <div style="max-width: 250px; font-family: system-ui;">
-          <h3 style="margin: 0 0 8px 0; font-weight: bold; color: #333;">
+        <div style="
+          max-width: ${isMobile ? '180px' : '280px'};
+          font-family: system-ui;
+          padding: ${isMobile ? '6px' : '8px'};
+        ">
+          <h3 style="
+            margin: 0 0 ${isMobile ? '4px' : '8px'} 0;
+            font-weight: bold;
+            color: #333;
+            font-size: ${isMobile ? '12px' : '14px'};
+          ">
             ${eventLabels[report.event_type] || report.event_type}
           </h3>
-          <div style="font-size: 12px; color: #666; space: 6px;">
-            <p style="margin: 4px 0;"><strong>Afectados:</strong> ${report.affected_count}</p>
-            <p style="margin: 4px 0;"><strong>Vivienda:</strong> ${report.housing_type}</p>
-            <p style="margin: 4px 0;">
+          
+          <div style="
+            font-size: ${isMobile ? '10px' : '12px'};
+            color: #666;
+            line-height: 1.4;
+          ">
+            <p style="margin: 2px 0;"><strong>Afectados:</strong> ${report.affected_count}</p>
+            <p style="margin: 2px 0;"><strong>Vivienda:</strong> ${report.housing_type}</p>
+            <p style="margin: 2px 0;">
               <strong>Estado:</strong> 
-              <span style="padding: 2px 6px; border-radius: 3px; background-color: ${statusColor.bg}; color: ${statusColor.text};">
+              <span style="
+                padding: 2px 4px;
+                border-radius: 3px;
+                background-color: ${statusColor.bg};
+                color: ${statusColor.text};
+                font-size: ${isMobile ? '9px' : '11px'};
+              ">
                 ${report.status}
               </span>
             </p>
-            <p style="margin: 8px 0 4px 0;">${report.description}</p>
+            
+            <p style="
+              margin: ${isMobile ? '4px 0 2px 0' : '6px 0 4px 0'};
+              font-size: ${isMobile ? '10px' : '12px'};
+              word-wrap: break-word;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              display: -webkit-box;
+              -webkit-line-clamp: 2;
+              -webkit-box-orient: vertical;
+            ">
+              ${report.description}
+            </p>
+            
             ${
               report.image_url
-                ? `<img src="${report.image_url}" style="width: 100%; border-radius: 4px; max-height: 150px; object-fit: cover; margin-top: 6px;" alt="Evidencia" />`
+                ? `<img 
+                    src="${report.image_url}" 
+                    style="
+                      width: 100%;
+                      border-radius: 4px;
+                      max-height: ${isMobile ? '80px' : '150px'};
+                      object-fit: cover;
+                      margin-top: 4px;
+                    " 
+                    alt="Evidencia" 
+                  />`
                 : ''
             }
-            <p style="margin: 8px 0 0 0; font-size: 11px; color: #999;">
+            
+            <p style="
+              margin: ${isMobile ? '4px 0 0 0' : '6px 0 0 0'};
+              font-size: ${isMobile ? '9px' : '11px'};
+              color: #999;
+            ">
               ${new Date(report.created_at).toLocaleString('es-CO')}
             </p>
           </div>
@@ -227,7 +281,7 @@ export const ReportsMap = () => {
 
         // Marker de usuario
         const userIcon = L.divIcon({
-          html: `<div style="background:#3b82f6;color:white;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:12px;border:3px solid white;box-shadow:0 2px 8px rgba(59, 130, 246, 0.5);">📍</div>`,
+          html: `<div style="background:#3b82f6;color:white;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:12px;border:3px solid white;box-shadow:0 2px 4px rgba(0,0,0,0.2)">📍</div>`,
           iconSize: [24, 24],
           iconAnchor: [12, 12],
           className: '',
