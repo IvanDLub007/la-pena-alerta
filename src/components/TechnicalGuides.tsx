@@ -1,4 +1,4 @@
-import { Hammer, Home, FileText, Video, AlertTriangle, Download } from 'lucide-react';
+import { Hammer, Home, FileText, Video, AlertTriangle, Download, ExternalLink } from 'lucide-react';
 import { Card } from './ui/card';
 import { useState } from 'react';
 
@@ -35,37 +35,40 @@ const TECHNICAL_GUIDES = {
       },
     ],
   },
-  instructionalVideos: {
-    title: 'Videos Instructivos',
-    icon: Video,
-    description: 'Tutoriales sobre materiales y técnicas de construcción segura',
-    videos: [
+  multimedia: {
+    title: 'Multimedia',
+    icon: ExternalLink,
+    description: 'Recursos audiovisuales y referencias para construcción resiliente',
+    items: [
       {
         id: 1,
-        title: 'Cómo Proteger tu Vivienda de Inundaciones',
-        instructor: 'SEM Atlántico',
-        duration: '12:34',
-        thumbnail: 'https://img.youtube.com/vi/dQw4w9WgXcQ/mqdefault.jpg',
-        youtubeId: 'dQw4w9WgXcQ',
-        concepts: ['Elevación de estructura', 'Drenaje', 'Impermeabilización'],
+        title: '¿Qué hacer en caso de inundación? (Guía de prevención y reacción)',
+        url: 'https://youtu.be/mFFRzIuD2Nw?si=KTpYogfz56YCDJ9T',
+        type: 'video',
       },
       {
         id: 2,
-        title: 'Materiales Resistentes a la Humedad en el Caribe',
-        instructor: 'Cruz Roja Colombiana',
-        duration: '8:45',
-        thumbnail: 'https://img.youtube.com/vi/jNQXAC9IVRw/mqdefault.jpg',
-        youtubeId: 'jNQXAC9IVRw',
-        concepts: ['Hormigón armado', 'Ladrillos de calidad', 'Estructuras metálicas'],
+        title: 'Protección de hogares y negocios en 3 pasos (Barreras STOPI)',
+        url: 'https://youtube.com/shorts/ikgYxC4Fbz8?si=-hVQcz_NtKyme_vl',
+        type: 'video',
       },
       {
         id: 3,
-        title: 'Refuerzo Estructural: Técnicas Básicas',
-        instructor: 'UNGRD',
-        duration: '15:20',
-        thumbnail: 'https://img.youtube.com/vi/9bZkp7q19f0/mqdefault.jpg',
-        youtubeId: '9bZkp7q19f0',
-        concepts: ['Mampostería reforzada', 'Muros de contención', 'Fundaciones'],
+        title: 'Instalación rápida de barreras anti-inundación (Demostración)',
+        url: 'https://youtube.com/shorts/Thfqxy7zR5I?si=S28m-Hojq4-LhZiN',
+        type: 'video',
+      },
+      {
+        id: 4,
+        title: 'Prevención de humedad y salitre en muros por capilaridad',
+        url: 'https://youtube.com/shorts/hvlXUKGCX7c?si=9pUx3It8gk-q0u64',
+        type: 'video',
+      },
+      {
+        id: 5,
+        title: 'Soluciones y referencias visuales de protección',
+        url: 'https://www.instagram.com/p/DVcXxHVj8jh/?igsh=MXg3NHhndWhiZGIwbQ==',
+        type: 'reference',
       },
     ],
   },
@@ -147,7 +150,7 @@ const TECHNICAL_GUIDES = {
   },
 };
 
-type GuideCategory = 'reinforcement' | 'videos' | 'materials';
+type GuideCategory = 'reinforcement' | 'multimedia' | 'materials';
 
 interface SuggestResourceModalProps {
   isOpen: boolean;
@@ -251,37 +254,26 @@ const ReinforcementSection = () => (
   </div>
 );
 
-const VideosSection = () => (
+const MultimediaSection = () => (
   <div className="space-y-3">
-    {TECHNICAL_GUIDES.instructionalVideos.videos.map((video) => (
+    {TECHNICAL_GUIDES.multimedia.items.map((item) => (
       <div
-        key={video.id}
-        className="bg-gray-50 p-4 rounded-lg border-l-4 border-red-600"
+        key={item.id}
+        className="bg-gray-50 p-4 rounded-lg border-l-4 border-red-600 hover:shadow-md transition-shadow"
       >
         <div className="flex gap-3">
-          <Video className="w-5 h-5 text-red-600 flex-shrink-0 mt-1" />
-          <div className="flex-1">
-            <h4 className="font-semibold text-gray-900 text-sm">{video.title}</h4>
-            <p className="text-xs text-gray-600 mt-1">
-              {video.instructor} • {video.duration}
-            </p>
-            <div className="flex flex-wrap gap-1 mt-2">
-              {video.concepts.map((concept, idx) => (
-                <span
-                  key={idx}
-                  className="inline-block px-2 py-1 bg-red-100 text-red-700 text-xs rounded"
-                >
-                  {concept}
-                </span>
-              ))}
-            </div>
-            <button
-              onClick={() => console.log(`Reproducir video: ${video.youtubeId}`)}
+          <ExternalLink className="w-5 h-5 text-red-600 flex-shrink-0 mt-1" />
+          <div className="flex-1 min-w-0">
+            <h4 className="font-semibold text-gray-900 text-sm break-words">{item.title}</h4>
+            <a
+              href={item.url}
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-1 mt-2 px-3 py-1 bg-red-600 hover:bg-red-700 text-white text-xs font-semibold rounded transition-colors"
             >
-              <Video size={12} />
-              Ver Video
-            </button>
+              <ExternalLink size={12} />
+              Ver Recurso
+            </a>
           </div>
         </div>
       </div>
@@ -340,7 +332,7 @@ export const TechnicalGuides = () => {
       <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
         {[
           { id: 'reinforcement' as GuideCategory, label: 'Manuales', icon: FileText },
-          { id: 'videos' as GuideCategory, label: 'Videos', icon: Video },
+          { id: 'multimedia' as GuideCategory, label: 'Multimedia', icon: ExternalLink },
           { id: 'materials' as GuideCategory, label: 'Materiales', icon: Home },
         ].map((tab) => {
           const Icon = tab.icon;
@@ -376,16 +368,16 @@ export const TechnicalGuides = () => {
           </div>
         )}
 
-        {activeTab === 'videos' && (
+        {activeTab === 'multimedia' && (
           <div>
             <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-              <Video className="w-6 h-6 text-red-600" />
-              {TECHNICAL_GUIDES.instructionalVideos.title}
+              <ExternalLink className="w-6 h-6 text-red-600" />
+              {TECHNICAL_GUIDES.multimedia.title}
             </h2>
             <p className="text-sm text-gray-600 mb-4">
-              {TECHNICAL_GUIDES.instructionalVideos.description}
+              {TECHNICAL_GUIDES.multimedia.description}
             </p>
-            <VideosSection />
+            <MultimediaSection />
           </div>
         )}
 
@@ -424,19 +416,6 @@ export const TechnicalGuides = () => {
       >
         💡 Sugerir Recurso Técnico
       </button>
-
-      {/* Footer */}
-      <div className="mt-8 p-4 bg-gray-50 rounded-lg border border-gray-200">
-        <p className="text-xs text-gray-600 mb-2">
-          <strong>Fuentes de información:</strong>
-        </p>
-        <ul className="text-xs text-gray-600 space-y-1">
-          <li>• UNGRD (Unidad Nacional de Gestión del Riesgo de Desastres)</li>
-          <li>• IDIGER (Instituto Distrital de Gestión de Riesgos y Cambio Climático)</li>
-          <li>• Cruz Roja Colombiana - Programa de Resiliencia</li>
-          <li>• SEM Atlántico (Sociedad de Emergencias Médicas)</li>
-        </ul>
-      </div>
 
       {/* Modal */}
       <SuggestResourceModal
